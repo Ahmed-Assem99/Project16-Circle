@@ -1,13 +1,21 @@
 import { Alert, Button, Input, Select, SelectItem } from "@heroui/react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getInputProps } from "../utils/helpers";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "../schemas/signUpSchema";
 
-
+import { useState } from "react";
+import { authServices } from "../services/authService";
+import type { RegisterData } from "../types/RegisterData";
 
 export default function SignUp() {
+  const [SuccessMsg, setSuccessMsg] = useState("");
+  const [ErrorMsg, setErrorMsg] = useState("");
+  const [isLoading, setisLoading] = useState(false);
+const navigate = useNavigate()
+
+
   const {
     handleSubmit,
     register,
@@ -24,12 +32,21 @@ export default function SignUp() {
     resolver: zodResolver(schema),
   });
 
-  console.log(errors.name?.message);
-
-  async function signUp(values: any) {
-    //Validation
-    //send Data to BE
-    console.log(values);
+  async function signUp(values: RegisterData) {
+    setErrorMsg("");
+    setSuccessMsg("");
+    setisLoading(true);
+    try {
+      //Validation
+      //send Data to BE
+      const data = await authServices.signUp(values);
+      setSuccessMsg(data.message);
+      setisLoading(false);
+      navigate("/signin")
+    } catch (error: any) {
+      setErrorMsg(error.response.data.message);
+    }
+    setisLoading(false);
   }
 
   return (
@@ -85,19 +102,35 @@ export default function SignUp() {
           <SelectItem key="female">Female</SelectItem>
         </Select>
 
-        <Button isLoading={false} color="primary" variant="solid" type="submit">
+        <Button
+          isLoading={isLoading}
+          color="primary"
+          variant="solid"
+          type="submit"
+        >
           Sign Up
         </Button>
         <p>
           Already have an account? <Link to={"/signin"}>Login now</Link>
         </p>
-        <Alert
-          hideIcon
-          color="danger"
-          title={"errMsg"}
-          variant="faded"
-          classNames={{ base: "py-0 capitalize text-center" }}
-        />
+        {ErrorMsg && (
+          <Alert
+            hideIcon
+            color="danger"
+            title={ErrorMsg}
+            variant="faded"
+            classNames={{ base: "py-0 capitalize text-center" }}
+          />
+        )}
+        {SuccessMsg && (
+          <Alert
+            hideIcon
+            color="success"
+            title={SuccessMsg}
+            variant="faded"
+            classNames={{ base: "py-0 capitalize text-center" }}
+          />
+        )}
       </div>
     </form>
   );
