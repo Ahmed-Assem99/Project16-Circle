@@ -1,3 +1,4 @@
+
 import {
   Navbar as HeroUiNavbar,
   NavbarBrand,
@@ -13,14 +14,14 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <HeroUiNavbar>
+    <HeroUiNavbar className="bg-blue-300">
       <NavbarBrand>
         <Link to={"/"}>
           <p className="font-bold text-inherit">CIRCLE</p>
         </Link>
       </NavbarBrand>
 
-      <NavbarContent as="div" justify="end">
+      <NavbarContent  as="div" justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar

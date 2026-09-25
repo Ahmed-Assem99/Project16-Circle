@@ -1,26 +1,69 @@
 import { Alert, Button, Input, Select, SelectItem } from "@heroui/react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { getInputProps } from "../utils/helpers";
 
 export default function SignUp() {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      dateOfBirth: "",
+      gender: "",
+    },
+  });
+
+  console.log(errors.name?.message);
+
+  async function signUp(values: any) {
+    //Validation
+    //send Data to BE
+    console.log(values);
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(signUp)}>
       <div className="grid gap-4">
         <div className="grid gap-3 text-center">
           <h1>Welcome Back</h1>
           <p>Sign in to continue your journey</p>
         </div>
 
-        <Input variant="bordered" type="text" label="Full Name" />
+        <Input
+          {...register("name", {
+            required: "Name input is required",
+            minLength: { value: 3, message: "Name must be at least 3 chars" },
+            maxLength: {value:20, message:"Name must be at most 20 chars"},
+          })}
+          {...getInputProps("text", "Full Name")}
+          errorMessage={errors.name?.message}
+          isInvalid={!!errors.name?.message}
+        />
 
-        <Input variant="bordered" type="email" label="Email" />
+        <Input {...register("email")} {...getInputProps("email", "Email")} />
 
-        <Input variant="bordered" type="password" label="Password" />
+        <Input
+          {...register("password", {})}
+          {...getInputProps("password", "Password")}
+        />
 
-        <Input variant="bordered" type="password" label="Confirm Password" />
+        <Input
+          {...register("rePassword")}
+          {...getInputProps("password", "Confirm Password")}
+        />
 
-        <Input variant="bordered" type="date" label="Birth Date" />
+        <Input
+          {...register("dateOfBirth")}
+          {...getInputProps("date", "Birth Date")}
+        />
 
-        <Select variant="bordered" label="Gender">
+        <Select {...register("gender")} {...getInputProps(undefined, "Gender")}>
           <SelectItem key="male">Male</SelectItem>
           <SelectItem key="female">Female</SelectItem>
         </Select>
