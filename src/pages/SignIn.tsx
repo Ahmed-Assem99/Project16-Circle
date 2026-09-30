@@ -1,11 +1,11 @@
-import { Alert, Button, Input, Select, SelectItem } from "@heroui/react";
+import { Alert, Button, Input } from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { getInputProps } from "../utils/helpers";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { authServices } from "../services/authService";
-import type { RegisterData } from "../types/RegisterData";
+
 import { signInSchema } from "../schemas/signInSchema";
 import type { LogInData } from "../types/LogInData";
 
@@ -35,6 +35,8 @@ export default function SignIn() {
       //Validation
       //send Data to BE
       const data = await authServices.signIn(values);
+
+      localStorage.setItem("token",data.data.token)
       setSuccessMsg(data.message);
       setisLoading(false);
       navigate("/");
@@ -52,8 +54,6 @@ export default function SignIn() {
           <p>Sign in to continue your journey</p>
         </div>
 
-
-
         <Input
           {...register("email")}
           {...getInputProps("email", "Email")}
@@ -67,7 +67,6 @@ export default function SignIn() {
           isInvalid={!!errors.password?.message}
           errorMessage={errors.password?.message}
         />
-
 
         <Button
           isLoading={isLoading}

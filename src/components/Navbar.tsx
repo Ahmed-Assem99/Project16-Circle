@@ -10,9 +10,15 @@ import {
   Avatar,
   NavbarItem,
 } from "@heroui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+const isUserLoggedIn: boolean = !!localStorage.getItem("token")
+  const navigate= useNavigate()
+  function logout(){
+    localStorage.removeItem("token")
+    navigate("/signin")
+  }
   return (
     <HeroUiNavbar className="bg-blue-300">
       <NavbarBrand>
@@ -22,7 +28,12 @@ export default function Navbar() {
       </NavbarBrand>
 
       <NavbarContent  as="div" justify="end">
-        <Dropdown placement="bottom-end">
+        {
+
+          isUserLoggedIn?
+
+
+       ( <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
               isBordered
@@ -41,20 +52,22 @@ export default function Navbar() {
                 <p className="font-semibold">test@test.test</p>
               </Link>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem onPress={logout} key="logout" color="danger">
               Log Out
             </DropdownItem>
           </DropdownMenu>
-        </Dropdown>
-
-        <>
+        </Dropdown>)
+:
+       ( <>
           <NavbarItem>
             <Link to={"/signin"}>SignIn</Link>
           </NavbarItem>
           <NavbarItem>
             <Link to={"/signup"}>SignUp</Link>
           </NavbarItem>
-        </>
+        </>)
+        }
+
       </NavbarContent>
     </HeroUiNavbar>
   );
