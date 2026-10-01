@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import { HeroUIProvider } from "@heroui/react";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
 import ProtectedAuthRoute from "./protectedRoutes/ProtectedAuthRoute";
+import AuthContextProvider from "./contexts/authContext";
 
 const router = createBrowserRouter([
   {
@@ -33,11 +34,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <>
+    <AuthContextProvider>
       <HeroUIProvider>
         <RouterProvider router={router}></RouterProvider>
       </HeroUIProvider>
-    </>
+    </AuthContextProvider>
 
   );
 }

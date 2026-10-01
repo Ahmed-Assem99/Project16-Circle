@@ -10,14 +10,19 @@ import {
   Avatar,
   NavbarItem,
 } from "@heroui/react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { authContext } from "../contexts/authContext";
 
 export default function Navbar() {
-const isUserLoggedIn: boolean = !!localStorage.getItem("token")
+
+  const {isLoggedIn,setisLoggedIn}=useContext(authContext)
   const navigate= useNavigate()
+
   function logout(){
     localStorage.removeItem("token")
-    navigate("/signin")
+    setisLoggedIn(false)
+    
   }
   return (
     <HeroUiNavbar className="bg-blue-300">
@@ -30,7 +35,7 @@ const isUserLoggedIn: boolean = !!localStorage.getItem("token")
       <NavbarContent  as="div" justify="end">
         {
 
-          isUserLoggedIn?
+          isLoggedIn?
 
 
        ( <Dropdown placement="bottom-end">

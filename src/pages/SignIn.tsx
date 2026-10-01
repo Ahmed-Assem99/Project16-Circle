@@ -3,17 +3,19 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { getInputProps } from "../utils/helpers";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { authServices } from "../services/authService";
 
 import { signInSchema } from "../schemas/signInSchema";
 import type { LogInData } from "../types/LogInData";
+import { authContext } from "../contexts/authContext";
 
 export default function SignIn() {
   const [SuccessMsg, setSuccessMsg] = useState("");
   const [ErrorMsg, setErrorMsg] = useState("");
   const [isLoading, setisLoading] = useState(false);
   const navigate = useNavigate();
+  const {setisLoggedIn}=useContext(authContext)
 
   const {
     handleSubmit,
@@ -35,6 +37,7 @@ export default function SignIn() {
       //Validation
       //send Data to BE
       const data = await authServices.signIn(values);
+      setisLoggedIn(true);
 
       localStorage.setItem("token",data.data.token)
       setSuccessMsg(data.message);
