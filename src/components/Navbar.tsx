@@ -16,7 +16,7 @@ import { authContext } from "../contexts/authContext";
 
 export default function Navbar() {
 
-  const {isLoggedIn,setisLoggedIn}=useContext(authContext)
+  const {isLoggedIn,setisLoggedIn,userData}=useContext(authContext)
 
 
   function logout(){
@@ -47,17 +47,17 @@ export default function Navbar() {
               color="secondary"
               name={"user name"}
               size="sm"
-              src={"photo"}
+              src={userData.photo}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile">
+            <DropdownItem textValue="profile" key="profile">
               <Link className="h-14" to="/profile">
-                <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">test@test.test</p>
+                <p className="font-semibold">Signed in as{userData.name}</p>
+                <p className="font-semibold">{userData.email}</p>
               </Link>
             </DropdownItem>
-            <DropdownItem onPress={logout} key="logout" color="danger">
+            <DropdownItem textValue="logout" onPress={logout} key="logout" color="danger">
               Log Out
             </DropdownItem>
           </DropdownMenu>
