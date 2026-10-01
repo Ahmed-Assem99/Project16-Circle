@@ -11,13 +11,13 @@ import {
   NavbarItem,
 } from "@heroui/react";
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { authContext } from "../contexts/authContext";
 
 export default function Navbar() {
 
   const {isLoggedIn,setisLoggedIn}=useContext(authContext)
-  const navigate= useNavigate()
+
 
   function logout(){
     localStorage.removeItem("token")
