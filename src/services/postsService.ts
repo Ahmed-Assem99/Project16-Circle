@@ -20,6 +20,14 @@ class PostsService{
         })
         return data;
     }
+    async deletePost(postId:string){
+        const {data}=await axios.delete("https://route-posts.routemisr.com/posts/"+postId,{
+            headers:{
+                token:localStorage.getItem("token")
+            }
+        })
+        return data;
+    }
 }
 
 const postsService=new PostsService

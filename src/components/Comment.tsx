@@ -1,11 +1,8 @@
 import { Avatar } from "@heroui/react";
-import type { PostI } from "../interfaces/postI";
 
-interface CommentProps {
-  post: PostI;
-}
+import type { CommentI } from "../interfaces/commentI";
 
-export default function Comment({ post }: CommentProps) {
+export default function Comment({ comment }: { comment: CommentI }) {
   return (
     <div className="border-t border-default-200 px-4 py-4">
       {/* Comment input */}
@@ -24,8 +21,8 @@ export default function Comment({ post }: CommentProps) {
       {/* Example comment */}
       <div className="mt-4 flex items-start gap-3">
         <Avatar
-          src={post.topComment?.commentCreator.photo}
-          name={post.topComment?.commentCreator.name}
+          src={comment.commentCreator.photo}
+          name={comment.commentCreator.name}
           size="sm"
           className="shrink-0"
         />
@@ -33,12 +30,10 @@ export default function Comment({ post }: CommentProps) {
         <div>
           <div className="rounded-2xl bg-default-100 px-4 py-2">
             <p className="text-sm font-semibold text-foreground">
-              {post.topComment?.commentCreator.name}
+              {comment.commentCreator.name}
             </p>
 
-            <p className="text-sm text-default-700">
-              {post.topComment?.content}
-            </p>
+            <p className="text-sm text-default-700">{comment.content}</p>
           </div>
 
           <div className="mt-1 flex gap-4 px-3 text-xs font-medium text-default-500">
@@ -46,7 +41,7 @@ export default function Comment({ post }: CommentProps) {
 
             <button className="hover:text-foreground">Reply</button>
 
-            <span>{post.topComment?.createdAt}</span>
+            <span>{comment.createdAt}</span>
           </div>
         </div>
       </div>

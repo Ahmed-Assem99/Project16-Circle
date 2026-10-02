@@ -1,13 +1,13 @@
 import type { PostI } from "../interfaces/postI";
 import { Avatar, Button, Divider } from "@heroui/react";
-import { FaEllipsisH, FaRegComment, FaRegHeart, FaShare } from "react-icons/fa";
+import { FaEllipsisH, FaRegComment, FaRegHeart, FaShare, FaTrash } from "react-icons/fa";
 import Comment from "./Comment";
+import { useContext } from "react";
+import { authContext } from "../contexts/authContext";
 
-interface PostProps {
-  post: PostI;
-}
 
-export default function Post({ post }: PostProps) {
+export default function Post({ post, deletePost }: { post: PostI,deletePost:any }) {
+  const {userData} = useContext(authContext)
   return (
     <article className="overflow-hidden rounded-2xl border border-default-200 bg-white shadow-sm dark:bg-default-50">
       {/* Header */}
@@ -28,7 +28,7 @@ export default function Post({ post }: PostProps) {
             <p className="text-xs text-default-500">{post.createdAt}</p>
           </div>
         </div>
-
+<div className="flex content-center items-center">
         <Button
           isIconOnly
           variant="light"
@@ -37,6 +37,8 @@ export default function Post({ post }: PostProps) {
         >
           <FaEllipsisH className="text-default-500" />
         </Button>
+{post.user._id== userData._id   &&    <FaTrash onClick={()=>deletePost(post._id)} className="text-red-500 cursor-pointer"/>}
+        </div>
       </div>
 
       {/* Post text */}
@@ -95,7 +97,7 @@ export default function Post({ post }: PostProps) {
         </Button>
       </div>
 
-      {post.topComment && <Comment post={post}></Comment>}
+      {post.topComment && <Comment comment={post.topComment}></Comment>}
     </article>
   );
 }

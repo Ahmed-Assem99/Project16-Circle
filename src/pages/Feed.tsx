@@ -14,15 +14,21 @@ export default function Feed() {
     const { data } = await postsService.getAllPosts();
     setPosts(data.posts);
   }
+
+  async function deletePost(postId:string){
+const response = await postsService.deletePost(postId)
+console.log(response)
+getAllPosts()
+  }
   return (
     <div>
 <div className="w-4xl m-auto">
-      <CreatePost></CreatePost>
+      <CreatePost getAllPosts={getAllPosts}></CreatePost>
 </div>
       <div className="grid gap-4">
         {Posts.map((post) => (
           <div className="w-3xl m-auto">
-<Post post={post}></Post>
+<Post post={post} deletePost={deletePost}></Post>
           </div>)
         )}
       </div>
