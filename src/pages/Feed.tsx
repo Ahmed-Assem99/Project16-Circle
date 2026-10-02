@@ -20,18 +20,23 @@ const response = await postsService.deletePost(postId)
 console.log(response)
 getAllPosts()
   }
+
+  /* STYLING NOTES — Feed
+     - Removed the fixed widths (`w-4xl` around CreatePost, `w-3xl` around
+       each Post). They made CreatePost and the posts different widths and
+       broke the layout on phones. Width now comes from MainLayout
+       (max-w-2xl), so everything lines up in one clean column.
+     - One vertical stack with `gap-4` spaces ALL cards equally,
+       including CreatePost (so its old `mb-5` is no longer needed). */
   return (
-    <div>
-<div className="w-4xl m-auto">
+    // flex-col + gap-4 → cards stacked vertically, 16px apart
+    <div className="flex flex-col gap-4">
       <CreatePost getAllPosts={getAllPosts}></CreatePost>
-</div>
-      <div className="grid gap-4">
-        {Posts.map((post) => (
-          <div className="w-3xl m-auto">
-<Post post={post} deletePost={deletePost}></Post>
-          </div>)
-        )}
-      </div>
+
+      {/* key → React needs a unique key for each item in a list */}
+      {Posts.map((post) => (
+        <Post key={post._id} post={post} deletePost={deletePost}></Post>
+      ))}
     </div>
   );
 }

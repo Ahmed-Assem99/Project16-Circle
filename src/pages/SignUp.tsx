@@ -49,12 +49,19 @@ const navigate = useNavigate()
     setisLoading(false);
   }
 
+  /* STYLING NOTES — SignUp (same look as SignIn, so both pages feel alike)
+     - Related fields are grouped in pairs with a responsive grid:
+       `grid gap-4 sm:grid-cols-2` → stacked (1 column) on phones,
+       side-by-side (2 columns) from 640px and up. This makes the long
+       form shorter on desktop.
+     - The heading text was copied from SignIn ("Welcome Back"), so it now
+       says what this page actually does. */
   return (
     <form onSubmit={handleSubmit(signUp)}>
       <div className="grid gap-4">
-        <div className="grid gap-3 text-center">
-          <h1>Welcome Back</h1>
-          <p>Sign in to continue your journey</p>
+        <div className="mb-2 grid gap-1 text-center">
+          <h1 className="text-2xl font-bold tracking-tight">Create your account</h1>
+          <p className="text-sm text-default-500">Join Circle and connect with your friends</p>
         </div>
 
         <Input
@@ -71,6 +78,8 @@ const navigate = useNavigate()
           errorMessage={errors.email?.message}
         />
 
+        {/* Pair 1: password + confirm (side by side on sm+ screens) */}
+        <div className="grid gap-4 sm:grid-cols-2">
         <Input
           {...register("password")}
           {...getInputProps("password", "Password")}
@@ -84,7 +93,10 @@ const navigate = useNavigate()
           errorMessage={errors.rePassword?.message}
           isInvalid={!!errors.rePassword?.message}
         />
+        </div>
 
+        {/* Pair 2: birth date + gender (side by side on sm+ screens) */}
+        <div className="grid gap-4 sm:grid-cols-2">
         <Input
           {...register("dateOfBirth")}
           {...getInputProps("date", "Birth Date")}
@@ -101,17 +113,22 @@ const navigate = useNavigate()
           <SelectItem key="male">Male</SelectItem>
           <SelectItem key="female">Female</SelectItem>
         </Select>
+        </div>
 
+        {/* Same big full-width primary button as SignIn */}
         <Button
           isLoading={isLoading}
           color="primary"
           variant="solid"
           type="submit"
+          size="lg"
+          className="mt-2 font-semibold"
         >
           Sign Up
         </Button>
-        <p>
-          Already have an account? <Link to={"/signin"}>Login now</Link>
+        <p className="text-center text-sm text-default-500">
+          Already have an account?{" "}
+          <Link to={"/signin"} className="font-semibold text-primary hover:underline">Login now</Link>
         </p>
         {ErrorMsg && (
           <Alert

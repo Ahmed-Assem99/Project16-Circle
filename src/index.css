@@ -3,3 +3,57 @@
 /* Note: You may need to change the path to fit your project structure */
 @source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
+
+/* =========================================================================
+   STYLING SYSTEM — the global rules the whole app follows
+   -------------------------------------------------------------------------
+   1. Colors come from HeroUI's semantic tokens, NOT raw Tailwind colors
+      (e.g. `bg-content1` / `text-foreground` / `text-default-500`
+      instead of `bg-white` / `text-black` / `text-gray-500`).
+      Why: these tokens switch automatically in dark mode, and our own
+      markup stays in the same palette as HeroUI's components.
+        - default-50   → the page background (very light grey)
+        - content1     → surfaces sitting on the page (cards, navbar)
+        - default-100  → soft "inset" areas (inputs, comment bubbles)
+        - divider      → every border / separator line
+        - foreground   → main text  |  default-500 → secondary/muted text
+        - primary      → the brand color (buttons, links, logo)
+
+   2. Spacing scale: stick to 2 / 3 / 4 / 6 (8px / 12px / 16px / 24px)
+      so gaps look the same everywhere.
+
+   3. Radius scale: rounded-full for avatars & pill buttons,
+      rounded-2xl for cards, rounded-xl for things inside cards.
+
+   4. Mobile-first layout: width is set ONCE by the layout
+      (`w-full max-w-*`), never with fixed widths like `w-3xl` on each
+      component, because fixed widths overflow on phones.
+   ========================================================================= */
+
+/* @theme extends Tailwind's design tokens.
+   Here we swap the default sans font for "Inter" (loaded in index.html),
+   so all text in the app uses it. */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* @layer base = default styles for plain HTML elements. */
+@layer base {
+  body {
+    /* bg-default-50   → light grey page, so white cards stand out on it
+       text-foreground → the theme's main text color
+       antialiased     → smoother font rendering on macOS */
+    @apply bg-default-50 text-foreground antialiased;
+  }
+}
+
+/* @utility creates OUR OWN Tailwind class (a Tailwind v4 feature).
+   Every card in the app (post, create post, auth box, profile…) uses
+   `card`, so to change how all cards look you only edit this one place. */
+@utility card {
+  /* rounded-2xl    → soft corners
+     border-divider → subtle 1px outline
+     bg-content1    → white in light mode, dark grey in dark mode
+     shadow-sm      → small shadow to lift the card off the page */
+  @apply rounded-2xl border border-divider bg-content1 shadow-sm;
+}
