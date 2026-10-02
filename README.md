@@ -8,6 +8,7 @@ Circle is a social posting app built with React and TypeScript. Users can compos
 - Preview and remove an image before posting.
 - Show a loading state while a post is being submitted.
 - Refresh the posts after a successful submission.
+- Delete posts created by the user.
 
 ## Tech stack
 
