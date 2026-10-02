@@ -47,14 +47,14 @@ export default function Navbar() {
               color="secondary"
               name={"user name"}
               size="sm"
-              src={userData.photo}
+              src={userData?.photo}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem textValue="profile" key="profile">
               <Link className="h-14" to="/profile">
-                <p className="font-semibold">Signed in as{userData.name}</p>
-                <p className="font-semibold">{userData.email}</p>
+                <p className="font-semibold">Signed in as{userData?.name}</p>
+                <p className="font-semibold">{userData?.email}</p>
               </Link>
             </DropdownItem>
             <DropdownItem textValue="logout" onPress={logout} key="logout" color="danger">

@@ -9,7 +9,6 @@ const {isLoggedIn}=useContext(authContext)
 
   return (
     <div>
-        <h1>Protected Route</h1>
         {isLoggedIn? children: <Navigate to={"/signin"}/>}
     </div>
   )

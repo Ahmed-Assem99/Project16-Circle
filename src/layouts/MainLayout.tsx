@@ -9,7 +9,6 @@ export default function MainLayout() {
     isLoading?(<h1>Loading..</h1>):
     (<div>
       <Navbar />
-      <h1>MainLayout</h1>
       <Outlet />
     </div>)
   );
