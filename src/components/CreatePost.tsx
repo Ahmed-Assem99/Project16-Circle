@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { Avatar, Button, form, Textarea } from "@heroui/react";
+import { Avatar, Button, Textarea } from "@heroui/react";
 
 import { FaImage, FaTimes } from "react-icons/fa";
 
@@ -42,7 +42,7 @@ if(Caption){
 if(imgFile){
 formData.set("image",imgFile)}
 
-const response=await postsService.createPost(formData)
+await postsService.createPost(formData)
 
 removeImage()
 setCaption("")
