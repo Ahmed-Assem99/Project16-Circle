@@ -18,7 +18,7 @@ export default function Feed() {
   }
 
   async function deletePost(postId:string){
-const response = await postsService.deletePost(postId)
+await postsService.deletePost(postId)
 getAllPosts()
   }
 
