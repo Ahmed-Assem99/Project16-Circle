@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import postsService from "../services/postsService";
 import type { PostI } from "../interfaces/postI";
+import type { createCommentI } from "../interfaces/createCommentI";
 import Post from "../components/Post";
 import CreatePost from "../components/CreatePost";
+import commentsServices from "../services/commentsService";
 
 export default function Feed() {
   const [Posts, setPosts] = useState<PostI[]>([]);
@@ -17,8 +19,12 @@ export default function Feed() {
 
   async function deletePost(postId:string){
 const response = await postsService.deletePost(postId)
-console.log(response)
 getAllPosts()
+  }
+
+  const createComment: createCommentI = async (postId, formData) => {
+    await commentsServices.createComment(postId, formData)
+    getAllPosts()
   }
 
   /* STYLING NOTES — Feed
@@ -35,7 +41,7 @@ getAllPosts()
 
       {/* key → React needs a unique key for each item in a list */}
       {Posts.map((post) => (
-        <Post key={post._id} post={post} deletePost={deletePost}></Post>
+        <Post key={post._id} post={post} deletePost={deletePost} createComment={createComment}></Post>
       ))}
     </div>
   );

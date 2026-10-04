@@ -2,32 +2,15 @@ import { Avatar } from "@heroui/react";
 
 import type { CommentI } from "../interfaces/commentI";
 
-/* STYLING NOTES — Comment section (bottom part of a Post card)
-   - border-t border-divider separates comments from the action buttons.
+/* STYLING NOTES — Comment (a single comment inside a Post's comments section)
    - Comments use "bubbles": rounded-2xl + bg-default-100, a slightly
      darker grey than the card, so they read as nested inside the post.
-   - The comment input is a pill (rounded-full) that shows a primary
-     ring when focused, so the user sees where they're typing. */
+   - The section wrapper (border-t + padding) and the CreateComment input
+     live in Post, so this component only renders the comment itself;
+     mt-4 spaces it from the input above. */
 export default function Comment({ comment }: { comment: CommentI }) {
   return (
-    <div className="border-t border-divider px-4 py-4">
-      {/* Comment input */}
-      <div className="flex items-center gap-3">
-        <Avatar name="You" size="sm" className="shrink-0" />
-
-        {/* focus-within: → styles applied when the <input> inside is focused
-            ring-2 ring-primary-300 → soft brand-colored outline
-            transition-shadow → the ring fades in instead of popping */}
-        <div className="flex flex-1 items-center rounded-full bg-default-100 px-4 py-2 transition-shadow focus-within:ring-2 focus-within:ring-primary-300">
-          <input
-            type="text"
-            placeholder="Write a comment..."
-            className="w-full bg-transparent text-sm outline-none placeholder:text-default-500"
-          />
-        </div>
-      </div>
-
-      {/* Example comment */}
+    <>
       <div className="mt-4 flex items-start gap-3">
         <Avatar
           src={comment.commentCreator.photo}
@@ -60,6 +43,6 @@ export default function Comment({ comment }: { comment: CommentI }) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
