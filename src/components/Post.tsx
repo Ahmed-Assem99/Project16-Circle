@@ -1,5 +1,6 @@
 import type { PostI } from "../interfaces/postI";
 import type { createCommentI } from "../interfaces/createCommentI";
+import type { editCommentI } from "../interfaces/editCommentI";
 import { Avatar, Button, Divider } from "@heroui/react";
 import { FaEllipsisH, FaHeart, FaRegComment, FaRegHeart, FaShare, FaTrash } from "react-icons/fa";
 import Comment from "./Comment";
@@ -8,7 +9,7 @@ import { useContext } from "react";
 import { authContext } from "../contexts/authContext";
 
 
-export default function Post({ post, deletePost , createComment }: { post: PostI,deletePost:any , createComment: createCommentI}) {
+export default function Post({ post, deletePost , createComment,deleteComment,editComment }: { post: PostI,deletePost:any , createComment: createCommentI,deleteComment:any,editComment: editCommentI}) {
   const {userData} = useContext(authContext)
   /* STYLING NOTES — Post card
      - The card look comes from the shared `card` utility (index.css).
@@ -142,7 +143,7 @@ export default function Post({ post, deletePost , createComment }: { post: PostI
       <div className="border-t border-divider px-4 py-4">
         <CreateComment postId={post._id} createComment={createComment}/>
 
-        {post.topComment && <Comment comment={post.topComment}></Comment>}
+        {post.topComment && <Comment comment={post.topComment} deleteComment={deleteComment} editComment={editComment}></Comment>}
       </div>
     </article>
   );

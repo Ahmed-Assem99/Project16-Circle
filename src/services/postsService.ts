@@ -9,6 +9,7 @@ class PostsService{
                 token:localStorage.getItem("token")
             }
         })
+        console.log(data)
         return data
     }
     
@@ -26,6 +27,7 @@ class PostsService{
                 token:localStorage.getItem("token")
             }
         })
+        console.log(data)
         return data;
     }
 }

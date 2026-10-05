@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import postsService from "../services/postsService";
 import type { PostI } from "../interfaces/postI";
 import type { createCommentI } from "../interfaces/createCommentI";
+import type { editCommentI } from "../interfaces/editCommentI";
 import Post from "../components/Post";
 import CreatePost from "../components/CreatePost";
 import commentsServices from "../services/commentsService";
+import type { GetPostsResponse, Response } from "../types/Response";
 
 export default function Feed() {
   const [Posts, setPosts] = useState<PostI[]>([]);
@@ -12,9 +14,10 @@ export default function Feed() {
     getAllPosts();
   }, []);
 
-  async function getAllPosts() {
+  async function getAllPosts():Promise<GetPostsResponse> {
     const { data } = await postsService.getAllPosts();
     setPosts(data.posts);
+    return data
   }
 
   async function deletePost(postId:string){
@@ -26,6 +29,17 @@ getAllPosts()
     await commentsServices.createComment(postId, formData)
     getAllPosts()
   }
+
+  const editComment: editCommentI = async (postId, commentId, formData) => {
+    await commentsServices.editComment(postId, commentId, formData)
+    getAllPosts()
+  }
+
+async function deleteComment(postId:string,commentId:string):Promise<Response<{}>>{
+  const response = await commentsServices.deleteComment(postId,commentId)
+  getAllPosts()
+  return response
+}
 
   /* STYLING NOTES — Feed
      - Removed the fixed widths (`w-4xl` around CreatePost, `w-3xl` around
@@ -41,7 +55,7 @@ getAllPosts()
 
       {/* key → React needs a unique key for each item in a list */}
       {Posts.map((post) => (
-        <Post key={post._id} post={post} deletePost={deletePost} createComment={createComment}></Post>
+        <Post key={post._id} post={post} deletePost={deletePost} createComment={createComment} deleteComment={deleteComment} editComment={editComment}></Post>
       ))}
     </div>
   );
