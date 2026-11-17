@@ -11,6 +11,7 @@ import { HeroUIProvider } from "@heroui/react";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
 import ProtectedAuthRoute from "./protectedRoutes/ProtectedAuthRoute";
 import AuthContextProvider from "./contexts/authContext";
+import PostDetails from "./pages/PostDetails";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <ProtectedRoute><Feed /></ProtectedRoute> },
       { path: "profile", element: <ProtectedRoute><Profile /></ProtectedRoute>},
+      { path: "/posts/:postId", element: <ProtectedRoute><PostDetails/></ProtectedRoute>},
       { path: "*", element: <NotFound /> },
     ],
   },

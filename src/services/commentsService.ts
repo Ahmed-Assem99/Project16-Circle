@@ -1,6 +1,17 @@
 import axios from "axios"
+import type { GetPostCommentsResponse } from "../types/Response"
 
 class CommentsService{
+
+    async getPostComments(postId:string,page=1,limit=10):Promise<GetPostCommentsResponse>{
+        const {data}=await axios.get(`https://route-posts.routemisr.com/posts/${postId}/comments`,{
+            params:{page,limit},
+            headers:{
+                token:localStorage.getItem("token")
+            }
+        })
+        return data
+    }
 
     async createComment(postId:string,formData:FormData){
 

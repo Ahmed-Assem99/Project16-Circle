@@ -1,4 +1,5 @@
 import type { PostI } from "../interfaces/postI";
+import type { CommentI } from "../interfaces/commentI";
 import type { createCommentI } from "../interfaces/createCommentI";
 import type { editCommentI } from "../interfaces/editCommentI";
 import { Avatar, Button, Divider } from "@heroui/react";
@@ -7,10 +8,12 @@ import Comment from "./Comment";
 import CreateComment from "./CreateComment";
 import { useContext } from "react";
 import { authContext } from "../contexts/authContext";
+import { useNavigate } from "react-router-dom";
 
 
-export default function Post({ post, deletePost , createComment,deleteComment,editComment }: { post: PostI,deletePost:any , createComment: createCommentI,deleteComment:any,editComment: editCommentI}) {
+export default function Post({ post, deletePost , createComment,deleteComment,editComment,comments }: { post: PostI,deletePost:any , createComment: createCommentI,deleteComment:any,editComment: editCommentI,comments?: CommentI[]}) {
   const {userData} = useContext(authContext)
+  const navigate = useNavigate()
   /* STYLING NOTES — Post card
      - The card look comes from the shared `card` utility (index.css).
        `overflow-hidden` clips the image to the card's rounded corners.
@@ -121,6 +124,7 @@ export default function Post({ post, deletePost , createComment,deleteComment,ed
         </Button>
 
         <Button
+        onPress={()=>navigate("/posts/"+post._id)}
           variant="light"
           radius="lg"
           className="font-medium text-default-600 hover:text-primary"
@@ -139,11 +143,16 @@ export default function Post({ post, deletePost , createComment,deleteComment,ed
         </Button>
       </div>
 
-      {/* Comments section: input first, then the top comment (if any) */}
+      {/* Comments section: input first, then all comments (details page)
+          or just the top comment (feed) */}
       <div className="border-t border-divider px-4 py-4">
         <CreateComment postId={post._id} createComment={createComment}/>
 
-        {post.topComment && <Comment comment={post.topComment} deleteComment={deleteComment} editComment={editComment}></Comment>}
+        {comments
+          ? comments.map((comment) => (
+              <Comment key={comment._id} comment={comment} deleteComment={deleteComment} editComment={editComment}></Comment>
+            ))
+          : post.topComment && <Comment comment={post.topComment} deleteComment={deleteComment} editComment={editComment}></Comment>}
       </div>
     </article>
   );

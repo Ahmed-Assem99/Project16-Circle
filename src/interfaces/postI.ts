@@ -2,7 +2,6 @@ import type { CommentI } from "./commentI";
 import type { UserI } from "./userI";
 
 export interface PostI {
-
   _id: string;
 
   body: string;
@@ -32,5 +31,4 @@ export interface PostI {
   id: string;
 
   bookmarked: boolean;
-
 }

@@ -1,36 +1,58 @@
 import axios from "axios";
+import type { GetPostDetailsResponse } from "../types/Response";
 
-class PostsService{
+class PostsService {
+  async getAllPosts() {
+    const { data } = await axios.get(
+      "https://route-posts.routemisr.com/posts",
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      },
+    );
+    console.log(data);
+    return data;
+  }
 
+  async createPost(formData: FormData) {
+    const { data } = await axios.post(
+      "https://route-posts.routemisr.com/posts",
+      formData,
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      },
+    );
+    return data;
+  }
+  async deletePost(postId: string) {
+    const { data } = await axios.delete(
+      "https://route-posts.routemisr.com/posts/" + postId,
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      },
+    );
+    console.log(data);
+    return data;
+  }
 
-    async getAllPosts(){
-        const {data}=await axios.get("https://route-posts.routemisr.com/posts",{
-            headers:{
-                token:localStorage.getItem("token")
-            }
-        })
-        console.log(data)
-        return data
-    }
-    
-    async createPost(formData:FormData){
-        const {data}=await axios.post("https://route-posts.routemisr.com/posts",formData,{
-            headers:{
-                token:localStorage.getItem("token")
-            }
-        })
-        return data;
-    }
-    async deletePost(postId:string){
-        const {data}=await axios.delete("https://route-posts.routemisr.com/posts/"+postId,{
-            headers:{
-                token:localStorage.getItem("token")
-            }
-        })
-        console.log(data)
-        return data;
-    }
+  async getPostDetails(postId: string):Promise<GetPostDetailsResponse> {
+    const { data } = await axios.get(
+      "https://route-posts.routemisr.com/posts/" + postId,
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      },
+    );
+    console.log(data)
+    return data;
+  }
 }
 
-const postsService=new PostsService
+const postsService = new PostsService();
 export default postsService;
